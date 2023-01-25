@@ -1,0 +1,16 @@
+#remote-container > * {
+  width: 25% !important;
+  height:auto;
+  margin: 20px;
+
+}
+
+@media (max-width: 600px) {
+  #remote-container > * {
+    width: 40% !important;
+    margin-left: -1vh;
+
+  }
+
+}
+

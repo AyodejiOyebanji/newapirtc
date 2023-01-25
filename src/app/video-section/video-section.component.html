@@ -1,0 +1,351 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img
+        src="/docs/5.0/assets/brand/bootstrap-logo.svg"
+        alt=""
+        width="30"
+        height="24"
+        class="d-inline-block align-text-top"
+      />
+      Video chat
+    </a>
+  </div>
+</nav>
+
+<div id="app">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-6" *ngIf="!conversation">
+            <h1 class="videoText display-1">Exceptional video meetings.</h1>
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet consectetur adipisicing
+            </p>
+
+            <div
+              *ngIf="!conversation"
+              class="col-sm-12 col-md-12 col-lg-12 mx-auto mt-5"
+            >
+              <form
+                *ngIf="!conversation"
+                [formGroup]="conversationFormGroup"
+                (ngSubmit)="createConversation()"
+              >
+                <mat-form-field>
+                  <mat-label>Conversation Name</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    placeholder="Name"
+                    formControlName="name"
+                  /> </mat-form-field
+                >&nbsp;
+                <div class="">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!conversationFormGroup.valid"
+                    title="Get Or Create Conversation"
+                  >
+                    Create Conversation
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-6" *ngIf="!conversation">
+            <img
+              src="https://img.freepik.com/free-vector/hand-drawn-friends-videoconferencing-scene_23-2148831007.jpg?w=1060&t=st=1674328759~exp=1674329359~hmac=057818877afaf169359514b3e37ae941405e66091f9af7bcfb814e258525cece"
+              alt=""
+              srcset=""
+              class="illusImage"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+
+    </div> -->
+  </div>
+
+  <div class="container" *ngIf="conversation">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <div class="left_side">
+              <div class="firstSection">
+                <button mat-mini-fab color="white" class="m-3 iconS">
+                  <mat-icon> keyboard_backspace </mat-icon>
+                </button>
+                <h3 class="meetingTitleText mt-lg-4">Meeting Title</h3>
+                <br />
+
+                <div class="d-flex">
+                  <ng-container *ngIf="!recordingBtnState">
+                    <button mat-mini-fab color="white" class="m-4">
+                      <mat-icon
+                        class="text-dark"
+                        matTooltip="Start recording "
+                        matTooltipPosition="above"
+                        (click)="record()"
+                      >
+                        radio_button_checked
+                      </mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <ng-container *ngIf="recordingBtnState">
+                    <button mat-mini-fab color="white" class="m-4">
+                      <mat-icon
+                        class="text-danger"
+                        matTooltip="Stop Recording"
+                        matTooltipPosition="above"
+                        (click)="stopRecord()"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                      >
+                        radio_button_checked
+                      </mat-icon>
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="secondSection">
+                <button mat-raised-button class="partIcon m-2">
+                  <mat-icon class="iconS"> group </mat-icon
+                  >{{ numberOfPerticipant }}
+                </button>
+
+                <button mat-raised-button class="actionBtn">
+                  + Add People
+                </button>
+
+                <!-- action buttons starts here -->
+
+                <div class="nav">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div
+                              class="actionsBtn d-flex justify-content-center"
+                            >
+                              <button
+                                mat-mini-fab
+                                color="white"
+                                class="ms-sm-5 m-lg-2 eachBtn"
+                                matTooltip="Show everyone"
+                                matTooltipPosition="above"
+                                matBadge="{{ numberOfPerticipant }}"
+                              >
+                                <mat-icon
+                                  ><mat-icon class="iconS"> group </mat-icon>
+                                </mat-icon>
+                              </button>
+
+                              <!-- to mute camera -->
+                              <ng-container *ngIf="!muteVideo">
+                                <button
+                                  mat-mini-fab
+                                  color="white"
+                                  class="m-lg-2 eachBtn"
+                                  matTooltip="Turn off camera"
+                                  matTooltipPosition="above"
+                                  (click)="muteMyVideo()"
+                                >
+                                  <mat-icon>
+                                    videocam_off
+                                     </mat-icon>
+                                </button>
+                              </ng-container>
+
+                              <!-- to mute camera ends here -->
+                              <!-- to unmute the camera -->
+                              <ng-container *ngIf="muteVideo">
+                                <button
+                                  mat-mini-fab
+                                  color="warn"
+                                  class="m-lg-2 eachBtn"
+                                  matTooltip="Turn off camera"
+                                  matTooltipPosition="above"
+                                  (click)="unmuteMyVideo()"
+                                >
+                                  <mat-icon> videocam </mat-icon>
+                                </button>
+                              </ng-container>
+
+                              <!-- to unmute the camera stop -->
+                              <!-- meeting info -->
+                              <button
+                                mat-mini-fab
+                                color="white"
+                                class="m-lg-2 eachBtn"
+                                matTooltip="Meeting info"
+                                matTooltipPosition="above"
+                              >
+                                <mat-icon>info</mat-icon>
+                              </button>
+
+                              <!-- meeting info ends -->
+
+                              <!-- to end the call starts here -->
+                              <button
+                                mat-raised-button
+                                class="endCallBtn"
+                                color="warn"
+                                class="eachBtn m-lg-2"
+                                matTooltip="Leave call"
+                                matTooltipPosition="above"
+                                (click)="endCall()"
+                              >
+                                <mat-icon> call_end </mat-icon>
+                              </button>
+
+                              <!-- to end the call ends here -->
+
+                              <!-- to start sharing screen starts here -->
+                              <button
+                                mat-mini-fab
+                                color="white"
+                                class="m-lg-2 eachBtn"
+                                matTooltip="Present Now"
+                                matTooltipPosition="above"
+                                (click)="sharingScreen()"
+                              >
+                                <mat-icon> present_to_all </mat-icon>
+                              </button>
+
+                              <!-- to starts sharing screen ends here -->
+
+                              <!-- to mute audiostarts here -->
+                              <ng-container *ngIf="!muteAudio">
+                                <button
+                                  mat-mini-fab
+                                  color="white"
+                                  class="m-lg-2 eachBtn"
+                                  (click)="muteMyAudio()"
+                                  matTooltip="Mute Audio"
+                                  matTooltipPosition="above"
+                                >
+                                  <mat-icon>mic</mat-icon>
+                                </button>
+                              </ng-container>
+
+                              <!-- to mute audio stops here -->
+                              <!-- to unmute audio starts here -->
+
+                              <ng-container *ngIf="muteAudio">
+                                <button
+                                  mat-mini-fab
+                                  color="warn"
+                                  class="m-lg-2 eachBtn"
+                                  matTooltip="Unmute Audio"
+                                  matTooltipPosition="above"
+                                  (click)="unmuteMyAudio()"
+                                >
+                                  <mat-icon
+                                    ><span class="material-symbols-outlined">
+                                     mic
+                                    </span></mat-icon
+                                  >
+                                </button>
+                              </ng-container>
+
+                              <button (click)="makeFullScreen()"   mat-mini-fab
+                              class="m-lg-2 eachBtn"  color="white"> <mat-icon>fullscreen</mat-icon> </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- video section starts here for the first grid -->
+
+                <!-- <div
+                  class="mt-4 mt-sm-4 mx-lg-5"
+                  id="local-container"
+                  [ngClass]="{ over: remotesCounter > 0 }"
+                ></div>
+
+                <div id="remote-container"></div>
+
+
+                <video
+                  #localVideo
+                  autoplay
+                  playsinline
+                  width="150"
+                  class="fixed-bottom-right"
+
+
+                ></video> -->
+
+
+   <!-- Buttons for selecting grid pattern -->
+<button id="grid-1" (click)="setGrid(1)">Grid 1</button>
+<button id="grid-2" (click)="setGrid(2)">Grid 2</button>
+<button id="grid-3" (click)="setGrid(3)">Grid 3</button>
+
+<!-- Remote video container -->
+<div id="remote-container" [ngClass]="{'grid-layout-1': gridNumber == 1, 'grid-layout-2': gridNumber == 2, 'grid-layout-3': gridNumber == 3}"></div>
+
+<!-- Local video container -->
+<div id="local-container" [ngClass]="{'grid-layout-1-local': gridNumber == 1, 'grid-layout-2-local': gridNumber == 2, 'grid-layout-3-local': gridNumber == 3}">
+  <video #localVideo autoplay playsinline width="150"></video>
+</div>
+
+
+                <!-- video section ends here for the first grid -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Your Recording has been saved. Click
+        <span *ngIf="!recordedUrl">
+          <mat-spinner></mat-spinner>
+        </span>
+        <a href="{{ recordedUrl }}" target="_blank">{{ recordedUrl }} </a>
+        to download your video
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
